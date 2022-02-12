@@ -88,22 +88,22 @@ struct EightBallView: View {
                         endPlayerTurn()
                     }) {
                         if (data.numPlayers == 2) {
-                            Text("End \(data.players[currentPlayer].name)'s turn")
+                            Text("End \(data.players[currentPlayer].name)'s turn").frame(width: screenSize.width * 4 / 5).padding()
                         }
                         else {
-                            Text("End turn")
+                            Text("End turn").frame(width: screenSize.width * 4 / 5).padding()
                         }
-                    }
+                    }.buttonStyle(BorderedButtonStyle())
                     
                     Button(action: {
                         endRack()
                     }) {
                         if (data.numPlayers == 2) {
-                            Text("\(data.players[currentPlayer].name) won rack")
+                            Text("\(data.players[currentPlayer].name) won rack").frame(width: screenSize.width * 4 / 5).padding()
                         } else {
-                            Text("End rack")
+                            Text("End rack").frame(width: screenSize.width * 4 / 5).padding()
                         }
-                    }
+                    }.buttonStyle(BorderedButtonStyle())
                 }.frame(height: screenSize.height / 4, alignment: .bottom)
             }
             else {

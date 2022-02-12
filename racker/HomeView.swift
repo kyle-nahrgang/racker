@@ -85,6 +85,16 @@ class GameData : ObservableObject {
     @Published var winner : Int?
     @Published var numPlayers : Int = 1
     @Published var gameType : GameType = GameType.None
+    
+    func reset() {
+        ready_to_start = false
+        players  = [Player(), Player()]
+        racks = []
+        innings = []
+        winner = nil
+        numPlayers = 1
+        gameType = GameType.None
+    }
 }
 
 struct HomeView: View {

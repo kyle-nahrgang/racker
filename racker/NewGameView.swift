@@ -53,19 +53,23 @@ struct NewGameView: View {
                     ForEach(1...data.numPlayers, id: \.self) { idx in
                         Section(header: Text("PLAYER \(idx)")) {
                             LazyHStack {
-                                Text("Name")
-                                TextField("Player \(idx)", text: $data.players[idx - 1].name).onAppear {
-                                    data.players[idx - 1].name = "Player \(idx)"
-                                }
+                                Text("Name").frame(width: screenSize.width / 3, alignment: .leading)
+                                TextField("Player \(idx)", text: $data.players[idx - 1].name)
+                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                                    .frame(width:screenSize.width / 3, alignment: .trailing)
+                                    .onAppear {
+                                        data.players[idx - 1].name = "Player \(idx)"
+                                    }
+                                
                             }
 
                             LazyHStack {
-                                Text("Skill Level")
+                                Text("Skill Level").frame(width: screenSize.width / 3, alignment: .leading)
                                 Picker(selection: $data.players[idx - 1].sl, label: Text("Skill Level")) {
                                     ForEach(data.gameType == GameType.EightBall ? EightBallSL : NineBallSL, id:\.self) {
                                         Text($0.description)
                                     }
-                                }
+                                }.frame(width: screenSize.width / 3, alignment: .leading)
                             }
                         }.frame(alignment: .top)
                     }
@@ -76,8 +80,9 @@ struct NewGameView: View {
                 initializeGame()
                 self.presentationMode.wrappedValue.dismiss()
             }) {
-                Text("Start")
+                Text("Start").frame(width: screenSize.width * 4 / 5).padding()
             }.frame(height: screenSize.height / 6, alignment: .bottom).disabled(data.numPlayers == 0)
+                .buttonStyle(BorderedButtonStyle())
         }
     }
     

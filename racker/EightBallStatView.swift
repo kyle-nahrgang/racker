@@ -13,6 +13,7 @@ struct EightBallPlayerStatistics {
 }
 
 struct EightBallStatView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @ObservedObject var data : GameData
     let screenSize = UIScreen.main.bounds
     
@@ -20,13 +21,13 @@ struct EightBallStatView: View {
         LazyVStack {
             LazyVStack {
             if (data.winner != nil) {
-                //Text("\(data.players[data.winner!].name) has won!")
+                Text("\(data.players[data.winner!].name) has won!")
             }
             }.frame(height: screenSize.height / 4)
             
             LazyVStack {
                 ForEach(0..<data.numPlayers, id: \.self) { idx in
-                    Text("Player \(idx) Statistics:")
+                    Text("\(data.players[idx].name) Statistics:")
                     
                     LazyHStack {
                         Text("Racks won:").frame(width:screenSize.width / 3, alignment: .leading)
@@ -34,34 +35,59 @@ struct EightBallStatView: View {
                     }
                     
                     LazyHStack {
+                        Text("Innings won:").frame(width:screenSize.width / 3, alignment: .leading)
+                        Text(String(getPlayerInningsWon(idx: idx))).frame(width:screenSize.width / 3, alignment: .trailing)
+                    }
+                    
+                    LazyHStack {
                         Text("Innings Per Win:").frame(width:screenSize.width / 3, alignment: .leading)
-                        Text(String(getPlayerInningsPerWin(idx:idx))).frame(width:screenSize.width / 3, alignment: .trailing)
+                        Text(String(format: "%.1f", getPlayerInningsPerWin(idx:idx))).frame(width:screenSize.width / 3, alignment: .trailing)
                     }
                     
                     LazyHStack {
                         Text("Time Per Inning:").frame(width:screenSize.width / 3, alignment: .leading)
-                        Text(String(getPlayerTimePerInning(idx: idx))).frame(width:screenSize.width / 3, alignment: .trailing)
+                        Text(String(format: "%.1f s", getPlayerTimePerInning(idx: idx))).frame(width:screenSize.width / 3, alignment: .trailing)
                     }
                     
                 }
             }.frame(height: screenSize.height / 2, alignment: .top)
+            
+            Button(action: {
+                data.reset()
+                self.presentationMode.wrappedValue.dismiss()
+            }) {
+                Text("Home").frame(width: screenSize.width * 4 / 5).padding()
+            }.frame(height: screenSize.height / 6, alignment: .bottom).disabled(data.numPlayers == 0)
+                .buttonStyle(BorderedButtonStyle())
         }
     }
     
-    func getPlayerInningsPerWin(idx: Int) -> Double {
+    func getPlayerInningsWon(idx: Int) -> Int {
         var totalInningsWon = 0
         
         if data.players[idx].racks_won == 0 {
             return 0
         }
         
-        for rackIdx in 0..<data.racks.count {
-            if data.racks[rackIdx].winner! != idx {
-               totalInningsWon += data.racks[rackIdx].innings
-            }
+        if data.numPlayers == 1 {
+            return data.innings.count
         }
 
-        return Double(totalInningsWon / data.players[idx].racks_won)
+        for rackIdx in 0..<data.racks.count {
+            if data.racks[rackIdx].winner! != idx {
+                totalInningsWon += data.racks[rackIdx].innings
+            }
+        }
+        return totalInningsWon
+    }
+
+    func getPlayerInningsPerWin(idx: Int) -> Double {
+        let totalInningsWon = getPlayerInningsWon(idx: idx)
+        if (totalInningsWon > 0) {
+            return Double(totalInningsWon) / Double(data.players[idx].racks_won)
+        } else {
+            return 0
+        }
     }
     
     func getPlayerTimePerInning(idx: Int) -> Double {
