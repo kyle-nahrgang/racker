@@ -100,10 +100,10 @@
 			children = (
 				5BE39FD327B66FEB00A6992A /* rackerApp.swift */,
 				5BE39FD527B66FEB00A6992A /* HomeView.swift */,
+				5BE3A00A27B6ACEC00A6992A /* GameView.swift */,
 				5BE39FFF27B670E300A6992A /* NewGameView.swift */,
 				5BE39FD727B66FEC00A6992A /* Assets.xcassets */,
 				5BE39FD927B66FEC00A6992A /* Preview Content */,
-				5BE3A00A27B6ACEC00A6992A /* GameView.swift */,
 			);
 			path = racker;
 			sourceTree = "<group>";

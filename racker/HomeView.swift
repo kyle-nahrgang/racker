@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 enum SkillLevel : Int, CaseIterable {
     case two
@@ -61,17 +62,21 @@ class GameData : ObservableObject {
     @Published var racks = [RackData]()
     @Published var innings = [InningData]()
     @Published var winner : Int?
+    @Published var numPlayers : Int = 1
+    @Published var gameType = "8-Ball"
 }
 
 struct HomeView: View {
     @State var startingNewGame = false
     @StateObject var data = GameData()
+    let screenSize = UIScreen.main.bounds
     
     var body: some View {
         if (data.ready_to_start) {
             GameView(data:data)
         } else {
             LazyVStack {
+                Text("Racker").font(.title).frame(width: screenSize.width, height: screenSize.height / 2, alignment: Alignment.top)
                 Button(action: {
                     self.startingNewGame = true
                 }) {
