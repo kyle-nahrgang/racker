@@ -75,7 +75,6 @@ struct Player {
     var name : String = ""
     var sl : SkillLevel = SkillLevel.two
     var racks_won = 0
-    var racks_needed = 06
 }
 
 class GameData : ObservableObject {

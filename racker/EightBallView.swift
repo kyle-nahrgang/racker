@@ -14,6 +14,8 @@ struct EightBallView: View {
     @State var currentRack = 0
     @State var currentInning = 0
     
+    let screenSize = UIScreen.main.bounds
+    
     let racks_required : [SkillLevel : [SkillLevel : Int]] = [
         SkillLevel.two : [
             SkillLevel.two : 2,
@@ -68,45 +70,67 @@ struct EightBallView: View {
     var body: some View {
         LazyVStack() {
             if (data.winner == nil) {
-                Text("\(data.players[0].name) SL: \(data.players[0].sl.description)")
-                if (data.players.count == 2) {
-                    Text("vs")
-                    Text("\(data.players[1].name) SL: \(data.players[1].sl.description)")
-                }
+                LazyVStack {
+                    Text("\(data.players[0].name) SL: \(data.players[0].sl.description)")
+                    if (data.numPlayers == 2) {
+                        Text("vs")
+                        Text("\(data.players[1].name) SL: \(data.players[1].sl.description)")
+                    }
+                }.frame(height: screenSize.height / 4, alignment: .top)
                 
-                Text("Current Rack: \(data.racks.count)")
-                Text("Current Inning: \(currentInning)")
+                LazyVStack {
+                    Text("Current Rack: \(data.racks.count)")
+                    Text("Current Inning: \(currentInning)")
+                }.frame(height: screenSize.height / 4)
                 
-                Button(action: {
-                    endPlayerTurn()
-                }) {
-                    Text("End \(data.players[currentPlayer].name)'s turn")
-                }
-                
-                Button(action: {
-                    endRack()
-                }) {
-                    Text("\(data.players[currentPlayer].name) won rack")
-                }
+                LazyVStack {
+                    Button(action: {
+                        endPlayerTurn()
+                    }) {
+                        if (data.numPlayers == 2) {
+                            Text("End \(data.players[currentPlayer].name)'s turn")
+                        }
+                        else {
+                            Text("End turn")
+                        }
+                    }
+                    
+                    Button(action: {
+                        endRack()
+                    }) {
+                        if (data.numPlayers == 2) {
+                            Text("\(data.players[currentPlayer].name) won rack")
+                        } else {
+                            Text("End rack")
+                        }
+                    }
+                }.frame(height: screenSize.height / 4, alignment: .bottom)
             }
             else {
-                Text("\(data.players[data.winner.unsafelyUnwrapped].name) has won!")
+                EightBallStatView(data:data)
             }
         }
     }
     
     func endPlayerTurn() {
         data.innings[currentInning].player[currentPlayer].end = Date.now
-        if (currentPlayer == 0) {
-            currentPlayer = 1
-            otherPlayer = 0
+        if (data.numPlayers == 2) {
+            if (currentPlayer == 0) {
+                currentPlayer = 1
+                otherPlayer = 0
+            } else {
+                data.racks[currentRack].innings += 1
+                data.innings.append(InningData())
+                currentInning += 1
+                currentPlayer = 0
+                otherPlayer = 1
+            }
         } else {
             data.racks[currentRack].innings += 1
             data.innings.append(InningData())
             currentInning += 1
-            currentPlayer = 0
-            otherPlayer = 1
         }
+        
         data.innings[currentInning].player[currentPlayer].start = Date.now
     }
     
@@ -114,7 +138,10 @@ struct EightBallView: View {
         data.racks[currentRack].winner = currentPlayer
         data.players[currentPlayer].racks_won += 1
         
-        if data.players[currentPlayer].racks_won == racks_required[data.players[currentPlayer].sl].unsafelyUnwrapped[data.players[otherPlayer].sl] {
+        if data.numPlayers == 1 && data.players[currentPlayer].racks_won == data.players[currentPlayer].sl.rawValue {
+            data.winner = currentPlayer
+        }
+        else if data.players[currentPlayer].racks_won == racks_required[data.players[currentPlayer].sl].unsafelyUnwrapped[data.players[otherPlayer].sl] {
             data.winner = currentPlayer
 
         } else {
