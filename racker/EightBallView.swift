@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct GameView: View {
+struct EightBallView: View {
     @ObservedObject var data : GameData
     @State var currentPlayer = 0
     @State var otherPlayer = 1
@@ -125,9 +125,9 @@ struct GameView: View {
     
 }
 
-struct GameView_Previews: PreviewProvider {
+struct EightBallView_Previews: PreviewProvider {
     @StateObject static var data = GameData()
     static var previews: some View {
-        GameView(data: data)
+        EightBallView(data: data)
     }
 }

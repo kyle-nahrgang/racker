@@ -11,8 +11,11 @@ struct NewGameView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @ObservedObject var data : GameData
     
+    let GameTypeArray = [GameType.EightBall, GameType.NineBall]
     let PlayerNumbers : [Int] = [1, 2]
-    let GameTypes : [String] = ["8-Ball", "9-Ball"]
+    let EightBallSL = [SkillLevel.two, SkillLevel.three, SkillLevel.four, SkillLevel.five, SkillLevel.six, SkillLevel.seven]
+    let NineBallSL = [SkillLevel.one, SkillLevel.two, SkillLevel.three, SkillLevel.four, SkillLevel.five, SkillLevel.six, SkillLevel.seven, SkillLevel.eight, SkillLevel.nine]
+
     let screenSize = UIScreen.main.bounds
 
     var body: some View {
@@ -32,15 +35,21 @@ struct NewGameView: View {
                 Text("Game Type:")
                 Picker(selection: $data.gameType, label: Text("Game Type"))
                 {
-                    ForEach(GameTypes, id: \.self) { i in
-                        Text(i)
+                    ForEach(GameTypeArray, id: \.self) { i in
+                        Text(i.description).id(i)
                     }
-                }.id(GameTypes).pickerStyle(SegmentedPickerStyle())
+                }.id(GameTypeArray)
+                    .pickerStyle(SegmentedPickerStyle())
+                    .onChange(of: data.gameType) { _ in
+                        // just pick a default for now that is in both ranges
+                        data.players[0].sl = SkillLevel.three
+                        data.players[1].sl = SkillLevel.three
+                    }
             }
             
             // player settings
             LazyVStack {
-                if data.numPlayers > 0 {
+                if data.gameType != GameType.None {
                     ForEach(1...data.numPlayers, id: \.self) { idx in
                         Section(header: Text("PLAYER \(idx)")) {
                             LazyHStack {
@@ -53,10 +62,9 @@ struct NewGameView: View {
                             LazyHStack {
                                 Text("Skill Level")
                                 Picker(selection: $data.players[idx - 1].sl, label: Text("Skill Level")) {
-                                    ForEach(SkillLevel.allCases, id:\.self) {
+                                    ForEach(data.gameType == GameType.EightBall ? EightBallSL : NineBallSL, id:\.self) {
                                         Text($0.description)
                                     }
-                                        
                                 }
                             }
                         }.frame(alignment: .top)

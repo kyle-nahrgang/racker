@@ -9,12 +9,15 @@ import SwiftUI
 import UIKit
 
 enum SkillLevel : Int, CaseIterable {
+    case one
     case two
     case three
     case four
     case five
     case six
     case seven
+    case eight
+    case nine
     
     var id : Int {
         self.rawValue
@@ -23,18 +26,37 @@ enum SkillLevel : Int, CaseIterable {
     var description : String {
         get {
             switch self {
+            case .one: return "1"
             case .two: return "2"
             case .three: return "3"
             case .four: return "4"
             case .five: return "5"
             case .six: return "6"
             case .seven: return "7"
+            case .eight: return "8"
+            case .nine: return "9"
             }
         }
     }
 
 }
 
+enum GameType : String, CaseIterable {
+    case None
+    case EightBall
+    case NineBall
+    
+    var description : String {
+        get {
+            switch self {
+            case .None: return "NONE"
+            case .EightBall: return "8-Ball"
+            case .NineBall: return "9-Ball"
+            }
+        }
+    }
+}
+                    
 struct PlayerInning {
     var start : Date?
     var end : Date?
@@ -63,7 +85,7 @@ class GameData : ObservableObject {
     @Published var innings = [InningData]()
     @Published var winner : Int?
     @Published var numPlayers : Int = 1
-    @Published var gameType = "8-Ball"
+    @Published var gameType : GameType = GameType.None
 }
 
 struct HomeView: View {
@@ -72,8 +94,9 @@ struct HomeView: View {
     let screenSize = UIScreen.main.bounds
     
     var body: some View {
-        if (data.ready_to_start) {
-            GameView(data:data)
+        if (data.ready_to_start && (data.gameType == GameType.EightBall)) {
+                EightBallView(data:data)
+
         } else {
             LazyVStack {
                 Text("Racker").font(.title).frame(width: screenSize.width, height: screenSize.height / 2, alignment: Alignment.top)
