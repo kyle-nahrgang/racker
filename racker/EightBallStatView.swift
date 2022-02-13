@@ -14,7 +14,7 @@ struct EightBallPlayerStatistics {
 
 struct EightBallStatView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @ObservedObject var data : GameData
+    @ObservedObject var data : Game
     let screenSize = UIScreen.main.bounds
     
     var body: some View {
@@ -109,7 +109,7 @@ struct EightBallStatView: View {
 }
 
 struct EightBallStatView_Previews: PreviewProvider {
-    @State static var data = GameData()
+    @State static var data = Game()
     static var previews: some View {
         EightBallStatView(data: data)
     }

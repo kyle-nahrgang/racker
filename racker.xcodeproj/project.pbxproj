@@ -17,6 +17,8 @@
 		5BE3A00027B670E300A6992A /* NewGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE39FFF27B670E300A6992A /* NewGameView.swift */; };
 		5BE3A00B27B6ACEC00A6992A /* EightBallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE3A00A27B6ACEC00A6992A /* EightBallView.swift */; };
 		5BE3A00D27B8162D00A6992A /* EightBallStatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE3A00C27B8162D00A6992A /* EightBallStatView.swift */; };
+		5BE3A01027B86AEF00A6992A /* GameData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5BE3A00E27B86AEF00A6992A /* GameData.xcdatamodeld */; };
+		5BE3A01227B96F8F00A6992A /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE3A01127B96F8F00A6992A /* PersistenceController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +52,8 @@
 		5BE39FFF27B670E300A6992A /* NewGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGameView.swift; sourceTree = "<group>"; };
 		5BE3A00A27B6ACEC00A6992A /* EightBallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EightBallView.swift; sourceTree = "<group>"; };
 		5BE3A00C27B8162D00A6992A /* EightBallStatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EightBallStatView.swift; sourceTree = "<group>"; };
+		5BE3A00F27B86AEF00A6992A /* GameData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GameData.xcdatamodel; sourceTree = "<group>"; };
+		5BE3A01127B96F8F00A6992A /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,12 +105,14 @@
 			isa = PBXGroup;
 			children = (
 				5BE39FD327B66FEB00A6992A /* rackerApp.swift */,
+				5BE3A01127B96F8F00A6992A /* PersistenceController.swift */,
 				5BE39FD527B66FEB00A6992A /* HomeView.swift */,
 				5BE39FFF27B670E300A6992A /* NewGameView.swift */,
 				5BE3A00A27B6ACEC00A6992A /* EightBallView.swift */,
 				5BE3A00C27B8162D00A6992A /* EightBallStatView.swift */,
 				5BE39FD727B66FEC00A6992A /* Assets.xcassets */,
 				5BE39FD927B66FEC00A6992A /* Preview Content */,
+				5BE3A00E27B86AEF00A6992A /* GameData.xcdatamodeld */,
 			);
 			path = racker;
 			sourceTree = "<group>";
@@ -267,6 +273,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5BE39FD627B66FEB00A6992A /* HomeView.swift in Sources */,
+				5BE3A01227B96F8F00A6992A /* PersistenceController.swift in Sources */,
+				5BE3A01027B86AEF00A6992A /* GameData.xcdatamodeld in Sources */,
 				5BE39FD427B66FEB00A6992A /* rackerApp.swift in Sources */,
 				5BE3A00D27B8162D00A6992A /* EightBallStatView.swift in Sources */,
 				5BE3A00B27B6ACEC00A6992A /* EightBallView.swift in Sources */,
@@ -595,6 +603,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		5BE3A00E27B86AEF00A6992A /* GameData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				5BE3A00F27B86AEF00A6992A /* GameData.xcdatamodel */,
+			);
+			currentVersion = 5BE3A00F27B86AEF00A6992A /* GameData.xcdatamodel */;
+			path = GameData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 5BE39FC827B66FEB00A6992A /* Project object */;
 }

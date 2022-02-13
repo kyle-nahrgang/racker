@@ -9,7 +9,7 @@ import SwiftUI
 
 struct NewGameView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @ObservedObject var data : GameData
+    @ObservedObject var data : Game
     
     let GameTypeArray = [GameType.EightBall, GameType.NineBall]
     let PlayerNumbers : [Int] = [1, 2]
@@ -60,6 +60,8 @@ struct NewGameView: View {
                                     .onAppear {
                                         data.players[idx - 1].name = "Player \(idx)"
                                     }
+                                    .keyboardType(.namePhonePad)
+                                    .padding()
                                 
                             }
 
@@ -69,7 +71,9 @@ struct NewGameView: View {
                                     ForEach(data.gameType == GameType.EightBall ? EightBallSL : NineBallSL, id:\.self) {
                                         Text($0.description)
                                     }
-                                }.frame(width: screenSize.width / 3, alignment: .leading)
+                                }
+                                .frame(width: screenSize.width / 3, alignment: .leading)
+                                .padding()
                             }
                         }.frame(alignment: .top)
                     }
@@ -87,15 +91,15 @@ struct NewGameView: View {
     }
     
     func initializeGame() {
-        data.racks = [RackData()]
-        data.innings = [InningData()]
+        data.racks = [Rack()]
+        data.innings = [Inning()]
         data.ready_to_start = true
     }
 }
 
 
 struct NewGameView_Previews: PreviewProvider {
-    @State static var data = GameData()
+    @State static var data = Game()
     static var previews: some View {
         NewGameView(data: data)
     }

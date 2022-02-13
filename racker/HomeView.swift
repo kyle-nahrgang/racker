@@ -62,11 +62,11 @@ struct PlayerInning {
     var end : Date?
 }
 
-struct InningData {
+struct Inning {
     var player : [PlayerInning] = [PlayerInning(), PlayerInning()]
 }
 
-struct RackData {
+struct Rack {
     var innings : Int = 0
     var winner : Int?
 }
@@ -77,11 +77,11 @@ struct Player {
     var racks_won = 0
 }
 
-class GameData : ObservableObject {
+class Game : ObservableObject {
     @Published var players = [Player(), Player()]
     @Published var ready_to_start = false
-    @Published var racks = [RackData]()
-    @Published var innings = [InningData]()
+    @Published var racks = [Rack]()
+    @Published var innings = [Inning]()
     @Published var winner : Int?
     @Published var numPlayers : Int = 1
     @Published var gameType : GameType = GameType.None
@@ -98,8 +98,14 @@ class GameData : ObservableObject {
 }
 
 struct HomeView: View {
+    @Environment(\.managedObjectContext) private var viewContext
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \GameData.in_progress, ascending: true)],
+            animation: .default)
+        private var items: FetchedResults<GameData>
+    
     @State var startingNewGame = false
-    @StateObject var data = GameData()
+    @StateObject var data = Game()
     let screenSize = UIScreen.main.bounds
     
     var body: some View {
@@ -119,10 +125,18 @@ struct HomeView: View {
             }
         }
     }
+    
+    private let itemFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .medium
+        return formatter
+    }()
 }
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView()
+        HomeView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }

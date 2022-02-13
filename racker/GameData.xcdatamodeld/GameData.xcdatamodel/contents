@@ -1,27 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19574" systemVersion="20G165" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="Game" representedClassName="Game" syncable="YES" codeGenerationType="class">
+    <entity name="EightBall_InningData" representedClassName="EightBall_InningData" syncable="YES" codeGenerationType="class">
         <attribute name="end" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="start" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <relationship name="lag" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Player"/>
-        <relationship name="player_one" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Player" inverseName="games_player_one" inverseEntity="Player"/>
-        <relationship name="player_two" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Player"/>
-        <relationship name="winner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Player" inverseName="games_won" inverseEntity="Player"/>
     </entity>
-    <entity name="Player" representedClassName="Player" syncable="YES" codeGenerationType="class">
+    <entity name="EightBall_RackData" representedClassName="EightBall_RackData" syncable="YES" codeGenerationType="class"/>
+    <entity name="GameData" representedClassName="GameData" syncable="YES" codeGenerationType="class">
+        <attribute name="in_progress" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="ready_to_start" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="start" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="type" optional="YES" attributeType="String"/>
+        <relationship name="innings" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="InningData" inverseName="game" inverseEntity="InningData"/>
+        <relationship name="players" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PlayerData" inverseName="game" inverseEntity="PlayerData"/>
+        <relationship name="racks" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RackData" inverseName="game" inverseEntity="RackData"/>
+    </entity>
+    <entity name="InningData" representedClassName="InningData" isAbstract="YES" syncable="YES" codeGenerationType="class">
+        <attribute name="inning" optional="YES" attributeType="Transformable"/>
+        <relationship name="game" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GameData" inverseName="innings" inverseEntity="GameData"/>
+        <relationship name="player" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PlayerData" inverseName="innings" inverseEntity="PlayerData"/>
+    </entity>
+    <entity name="PlayerData" representedClassName="PlayerData" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="sl" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="games_player_one" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Game" inverseName="player_one" inverseEntity="Game"/>
-        <relationship name="games_won" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Game" inverseName="winner" inverseEntity="Game"/>
+        <relationship name="game" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GameData" inverseName="players" inverseEntity="GameData"/>
+        <relationship name="innings" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="InningData" inverseName="player" inverseEntity="InningData"/>
     </entity>
-    <entity name="Rack" representedClassName="Rack" syncable="YES" codeGenerationType="class">
-        <attribute name="innings" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="current_player" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Player"/>
-        <relationship name="winner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Player"/>
+    <entity name="RackData" representedClassName="RackData" isAbstract="YES" syncable="YES" codeGenerationType="class">
+        <attribute name="racks" optional="YES" attributeType="Transformable"/>
+        <relationship name="game" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GameData" inverseName="racks" inverseEntity="GameData"/>
     </entity>
     <elements>
-        <element name="Player" positionX="-63" positionY="-18" width="128" height="89"/>
-        <element name="Game" positionX="-54" positionY="9" width="128" height="119"/>
-        <element name="Rack" positionX="-45" positionY="54" width="128" height="74"/>
+        <element name="GameData" positionX="-136.2904052734375" positionY="-86.2960205078125" width="128" height="148"/>
+        <element name="PlayerData" positionX="280.4637451171875" positionY="-133.5623168945312" width="128" height="103"/>
+        <element name="EightBall_InningData" positionX="54" positionY="99" width="128" height="73"/>
+        <element name="EightBall_RackData" positionX="9" positionY="54" width="128" height="29"/>
+        <element name="InningData" positionX="81" positionY="-9" width="128" height="74"/>
+        <element name="RackData" positionX="90" positionY="27" width="128" height="59"/>
     </elements>
 </model>

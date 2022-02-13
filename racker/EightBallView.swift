@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct EightBallView: View {
-    @ObservedObject var data : GameData
+    @ObservedObject var data : Game
     @State var currentPlayer = 0
     @State var otherPlayer = 1
     @State var currentRack = 0
@@ -120,14 +120,14 @@ struct EightBallView: View {
                 otherPlayer = 0
             } else {
                 data.racks[currentRack].innings += 1
-                data.innings.append(InningData())
+                data.innings.append(Inning())
                 currentInning += 1
                 currentPlayer = 0
                 otherPlayer = 1
             }
         } else {
             data.racks[currentRack].innings += 1
-            data.innings.append(InningData())
+            data.innings.append(Inning())
             currentInning += 1
         }
         
@@ -145,7 +145,7 @@ struct EightBallView: View {
             data.winner = currentPlayer
 
         } else {
-            data.racks.append(RackData())
+            data.racks.append(Rack())
             currentRack += 1
         }
     }
@@ -153,7 +153,7 @@ struct EightBallView: View {
 }
 
 struct EightBallView_Previews: PreviewProvider {
-    @StateObject static var data = GameData()
+    @StateObject static var data = Game()
     static var previews: some View {
         EightBallView(data: data)
     }
